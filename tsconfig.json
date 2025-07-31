@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "outDir": "./public",
+    "rootDir": "./src",
+    "target": "es2020",
+    "module": "es2020",  
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": false,
+    "skipLibCheck": true
+  },
+}
