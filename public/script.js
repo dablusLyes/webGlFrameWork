@@ -1,6 +1,6 @@
 import { canvaSetup, contextClear, createShader, createProgram, setupGeometry, draw } from "./webglutils.js";
 import { triangle, square, pentagon } from "./geometries.js";
-import { circle, circleHigh } from "./circle.js";
+import { circleHigh } from "./circle.js";
 const gl = canvaSetup();
 const vertexShaderSource = `#version 300 es
     precision mediump float;
@@ -28,12 +28,12 @@ let program = createProgram(gl, vertexShader, fragmentShader);
 const geometry = circleHigh;
 setupGeometry(gl, geometry);
 // Setup all geometries
-const geometries = [triangle, square, pentagon, circle];
+const geometries = [triangle, square, pentagon, circleHigh];
 geometries.forEach(geometry => setupGeometry(gl, geometry));
 let currentGeometryIndex = 0;
 let lastSwitchTime = 0;
-const switchInterval = 2000; // 2 seconds in milliseconds
-function update(currentTime) {
+const switchInterval = 500; // 2 seconds in milliseconds
+function updateCycle(currentTime) {
     // Clear the canvas
     contextClear(gl);
     // Check if it's time to switch geometry
@@ -43,6 +43,11 @@ function update(currentTime) {
     }
     // Draw current geometry
     draw(gl, program, geometries[currentGeometryIndex]);
+    requestAnimationFrame(updateCycle);
+}
+function update() {
+    contextClear(gl);
+    draw(gl, program, geometries[3]);
     requestAnimationFrame(update);
 }
-requestAnimationFrame(update);
+requestAnimationFrame(updateCycle);

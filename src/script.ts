@@ -37,27 +37,30 @@ setupGeometry(gl, geometry)
 
 
 // Setup all geometries
-const geometries = [triangle, square, pentagon, circle];
+const geometries = [triangle, square, pentagon, circleHigh];
 geometries.forEach(geometry => setupGeometry(gl, geometry));
 
 let currentGeometryIndex = 0;
 let lastSwitchTime = 0;
-const switchInterval = 2000; // 2 seconds in milliseconds
+const switchInterval = 500; // 2 seconds in milliseconds
 
-function update(currentTime: number) {
-	// Clear the canvas
-	contextClear(gl);
-
-	// Check if it's time to switch geometry
-	if (currentTime - lastSwitchTime >= switchInterval) {
-		currentGeometryIndex = (currentGeometryIndex + 1) % geometries.length;
-		lastSwitchTime = currentTime;
-	}
-
-	// Draw current geometry
-	draw(gl, program, geometries[currentGeometryIndex]);
-
-	requestAnimationFrame(update);
+function updateCycle(currentTime: number) {
+    // Clear the canvas
+    contextClear(gl);
+    // Check if it's time to switch geometry
+    if (currentTime - lastSwitchTime >= switchInterval) {
+        currentGeometryIndex = (currentGeometryIndex + 1) % geometries.length;
+        lastSwitchTime = currentTime;
+    }
+    // Draw current geometry
+    draw(gl, program, geometries[currentGeometryIndex]);
+    requestAnimationFrame(updateCycle);
 }
 
-requestAnimationFrame(update);
+function update() {
+    contextClear(gl)
+    draw(gl, program, geometries[3]);
+    requestAnimationFrame(update);
+}
+
+requestAnimationFrame(updateCycle);
